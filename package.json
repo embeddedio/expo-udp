@@ -1,6 +1,6 @@
 {
   "name": "expo-udp",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "An Expo module for creating and connecting to a UDP server, sending, and receiving messages.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
