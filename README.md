@@ -21,6 +21,11 @@ expo install expo-udp
 
 ## Usage
 
+### Importing the Module
+```js
+import { initServer, initClient, addServerMessageListener, addServerErrorListener, addServerDisconnectListener, addClientMessageListener, addClientErrorListener } from 'expo-udp';
+```
+
 ### Initializing a UDP Server
 To initialize a UDP server, use the `initServer` function:
 
@@ -103,6 +108,33 @@ const clientErrorSub = addClientErrorListener((event) => {
 });
 ```
 
+## **EAS Build Considerations**
+
+### **Why EAS Build is Required?**
+The Expo UDP module contains native code, which means it **does not work in Expo Go**. Instead, you must use a **development build** created with EAS.
+
+### **Building for Development (Local & Cloud)**
+#### **Option 1: EAS Build (Cloud Build)**
+Run this command to build an Expo Development Build in the cloud:
+```sh
+eas build --profile development --platform android
+```
+After the build completes, install the APK or IPA on your device. Then, launch your app and select **"Switch to development build"** in Expo.
+
+#### **Option 2: EAS Build (Local Build)**
+If you want to build locally instead of using the cloud, run:
+```sh
+eas build --local --profile development --platform android
+```
+This will generate an APK locally, which you can install and test.
+
+### **Running the App Without EAS Build?**
+If you try to run the module in Expo Go, you will see the error:
+```
+(NOBRIDGE) ERROR  Error: Cannot find native module 'ExpoUdp'
+```
+This happens because **Expo Go does not support native modules**. Always use an **EAS development build** to test the UDP module.
+
 ## Example Node.js UDP Server and Client
 
 ### UDP Server (Node.js)
@@ -150,8 +182,8 @@ client.send(message, 0, message.length, 12345, '127.0.0.1', (err) => {
 
 ## Testing with the Expo Module App
 1. Start the Node.js UDP Server on your local machine.
-2. Run the Expo Module App on your device or emulator.
-3. Configure the App to connect to the Node.js server's IP and port.
+2. Run the Expo Module App on your device or emulator with an **EAS development build**.
+3. Configure the app to connect to the Node.js server's IP and port.
 4. Send and receive messages between the Expo app and the Node.js server to verify the communication.
 
 ## Contributing
